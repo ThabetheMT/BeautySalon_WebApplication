@@ -107,4 +107,28 @@ public class MainController {
         mainService.cancelAppointment(email);
     }
 
+    @PutMapping("/attended-client/{id}")
+    public void attendedClient(@PathVariable Integer id){
+         mainService.attendClient(id);
+    }
+
+    @GetMapping("/pending-appointments")
+    public List<Appointment> pendingAppointments(){
+        return mainService.pendingAppointments();
+    }
+
+    @GetMapping("/attended-appointments")
+    public List<Appointment> attendedAppointments(){
+        return mainService.attendedAppointments();
+    }
+
+    @GetMapping("/count-pending")
+    public int countPendingAppointment(){
+        return mainService.countPendingAppointment();
+    }
+
+    @GetMapping("/count-attended")
+    public int countAttendedAppointment(){
+        return mainService.countAttendedAppointments();
+    }
 }

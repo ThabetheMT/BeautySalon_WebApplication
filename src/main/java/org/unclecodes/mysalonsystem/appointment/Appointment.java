@@ -45,4 +45,5 @@ public class Appointment {
     private Client client;
     private String type;
     private Date date;
+    private boolean isAttended;
 }

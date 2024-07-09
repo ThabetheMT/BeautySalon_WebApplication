@@ -50,4 +50,19 @@ public class AppointmentService {
         return Optional.ofNullable(appointmentDAO.findById(id)
                 .orElseThrow(()-> new User_NotFound_Exception("Appointment not found")));
     }
+
+    public List<Appointment> pendingAppointment(){
+        return appointmentDAO.pendingAppointments();
+    }
+
+    public List<Appointment> attendedAppointment(){
+        return appointmentDAO.attendedAppointments();
+    }
+
+    public void attendClient(Integer id){
+        Appointment appointment = appointmentDAO.findById(id).get();
+        appointment.setAttended(true);
+        appointmentDAO.save(appointment);
+    }
+
 }
