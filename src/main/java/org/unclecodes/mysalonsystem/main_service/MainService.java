@@ -96,4 +96,25 @@ public class MainService {
     public Optional<Appointment> getAppointment(Integer id){
         return appointmentService.getAppointment(id);
     }
+
+    public void attendClient(Integer id){
+        appointmentService.attendClient(id);
+    }
+
+    public List<Appointment> attendedAppointments(){
+        return appointmentService.attendedAppointment();
+    }
+
+    public List<Appointment> pendingAppointments(){
+        return appointmentService.pendingAppointment();
+    }
+
+    public int countPendingAppointment(){
+        return appointmentService.pendingAppointment().size();
+    }
+
+    public int countAttendedAppointments(){
+        return appointmentService.attendedAppointment().size();
+    }
+
 }
