@@ -33,6 +33,7 @@ public class Rating {
             length = 1
     )
     private int rate;
+    private String review;
     @ManyToOne(
             fetch = FetchType.EAGER
     )
