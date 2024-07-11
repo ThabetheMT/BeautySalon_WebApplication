@@ -21,8 +21,7 @@ public class Rating {
     @SequenceGenerator(
             name = "sequence_rating",
             sequenceName = "sequence_rating",
-            allocationSize = 1,
-            initialValue = 1
+            allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -38,14 +37,14 @@ public class Rating {
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            referencedColumnName = "email"
+            referencedColumnName = "id"
     )
     private Client client;
     @ManyToOne(
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            referencedColumnName = "email"
+            referencedColumnName = "id"
     )
     private Stylist stylist;
     private Date creationDate;

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.unclecodes.mysalonsystem.appointment.Appointment;
 import org.unclecodes.mysalonsystem.client.Client;
 import org.unclecodes.mysalonsystem.main_service.MainService;
+import org.unclecodes.mysalonsystem.ratings.Rating;
 import org.unclecodes.mysalonsystem.stylist.Stylist;
 
 import java.util.List;
@@ -131,4 +132,46 @@ public class MainController {
     public int countAttendedAppointment(){
         return mainService.countAttendedAppointments();
     }
+
+    //ratings
+    @PostMapping("/add-rating")
+    public void createRating(@RequestBody Rating rating){
+        mainService.createRating(rating);
+    }
+
+    @GetMapping("/all-ratings")
+    public List<Rating> allRatings(){
+        return mainService.allRatings();
+    }
+
+    @GetMapping("/client-ratings/{email}")
+    public List<Rating> findRatingByClientEmail(@PathVariable String email){
+        return mainService.findRatingByClientEmail(email);
+    }
+
+    @GetMapping("/stylist-ratings/{email}")
+    public List<Rating> findRatingsByStylistEmail(@PathVariable String email){
+        return mainService.findRatingByStylistEmail(email);
+    }
+
+    @GetMapping("/count-ratings")
+    public int countRatings(){
+        return mainService.countRatings();
+    }
+
+    @DeleteMapping("/delete-ratings")
+    public void deleteRatings(){
+        mainService.deleteRatings();
+    }
+
+    @DeleteMapping("/delete-ratings/{email}")
+    public void deleteRatingsByClientEmail(@PathVariable String email){
+        mainService.deleteRatingsByClientEmail(email);
+    }
+
+    @GetMapping("/average-rating/{email}")
+    public double averageRating(@PathVariable String email){
+        return mainService.averageRating(email);
+    }
+
 }

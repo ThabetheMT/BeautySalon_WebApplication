@@ -155,4 +155,8 @@ public class MainService {
         ratingService.deleteRatingsByStylistEmail(email);
     }
 
+    public double averageRating(String email){
+        return ratingService.ratingPercentage(email);
+    }
+
 }
