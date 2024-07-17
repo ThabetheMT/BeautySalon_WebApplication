@@ -1,23 +1,38 @@
 package org.unclecodes.mysalonsystem.main_controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.unclecodes.mysalonsystem.appointment.Appointment;
 import org.unclecodes.mysalonsystem.client.Client;
+import org.unclecodes.mysalonsystem.client.ClientService;
 import org.unclecodes.mysalonsystem.main_service.MainService;
 import org.unclecodes.mysalonsystem.ratings.Rating;
 import org.unclecodes.mysalonsystem.stylist.Stylist;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/v1/salon")
+//@Controller
+//@RestController
+//@RequestMapping("/api/v1/salon")
 public class MainController {
 
     private final MainService mainService;
+    private final ClientService clientService;
 
-    public MainController(MainService mainService) {
+    public MainController(MainService mainService, ClientService clientService) {
         this.mainService = mainService;
+        this.clientService = clientService;
+    }
+
+    @GetMapping("/")
+    public ModelAndView index(Model model){
+        ModelAndView modelAndView = new ModelAndView();
+        model.addAttribute("clients", clientService.allClients());
+        modelAndView.setViewName("index.html");
+        return modelAndView ;
     }
 
     //client
