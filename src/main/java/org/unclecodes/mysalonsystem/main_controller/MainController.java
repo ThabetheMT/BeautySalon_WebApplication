@@ -1,22 +1,38 @@
 package org.unclecodes.mysalonsystem.main_controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.unclecodes.mysalonsystem.appointment.Appointment;
 import org.unclecodes.mysalonsystem.client.Client;
+import org.unclecodes.mysalonsystem.client.ClientService;
 import org.unclecodes.mysalonsystem.main_service.MainService;
+import org.unclecodes.mysalonsystem.ratings.Rating;
 import org.unclecodes.mysalonsystem.stylist.Stylist;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/v1/salon")
+//@Controller
+//@RestController
+//@RequestMapping("/api/v1/salon")
 public class MainController {
 
     private final MainService mainService;
+    private final ClientService clientService;
 
-    public MainController(MainService mainService) {
+    public MainController(MainService mainService, ClientService clientService) {
         this.mainService = mainService;
+        this.clientService = clientService;
+    }
+
+    @GetMapping("/")
+    public ModelAndView index(Model model){
+        ModelAndView modelAndView = new ModelAndView();
+        model.addAttribute("clients", clientService.allClients());
+        modelAndView.setViewName("index.html");
+        return modelAndView ;
     }
 
     //client
@@ -131,4 +147,46 @@ public class MainController {
     public int countAttendedAppointment(){
         return mainService.countAttendedAppointments();
     }
+
+    //ratings
+    @PostMapping("/add-rating")
+    public void createRating(@RequestBody Rating rating){
+        mainService.createRating(rating);
+    }
+
+    @GetMapping("/all-ratings")
+    public List<Rating> allRatings(){
+        return mainService.allRatings();
+    }
+
+    @GetMapping("/client-ratings/{email}")
+    public List<Rating> findRatingByClientEmail(@PathVariable String email){
+        return mainService.findRatingByClientEmail(email);
+    }
+
+    @GetMapping("/stylist-ratings/{email}")
+    public List<Rating> findRatingsByStylistEmail(@PathVariable String email){
+        return mainService.findRatingByStylistEmail(email);
+    }
+
+    @GetMapping("/count-ratings")
+    public int countRatings(){
+        return mainService.countRatings();
+    }
+
+    @DeleteMapping("/delete-ratings")
+    public void deleteRatings(){
+        mainService.deleteRatings();
+    }
+
+    @DeleteMapping("/delete-ratings/{email}")
+    public void deleteRatingsByClientEmail(@PathVariable String email){
+        mainService.deleteRatingsByClientEmail(email);
+    }
+
+    @GetMapping("/average-rating/{email}")
+    public double averageRating(@PathVariable String email){
+        return mainService.averageRating(email);
+    }
+
 }

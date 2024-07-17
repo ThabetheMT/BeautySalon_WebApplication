@@ -5,6 +5,8 @@ import org.unclecodes.mysalonsystem.appointment.Appointment;
 import org.unclecodes.mysalonsystem.appointment.AppointmentService;
 import org.unclecodes.mysalonsystem.client.Client;
 import org.unclecodes.mysalonsystem.client.ClientService;
+import org.unclecodes.mysalonsystem.ratings.Rating;
+import org.unclecodes.mysalonsystem.ratings.RatingService;
 import org.unclecodes.mysalonsystem.stylist.Stylist;
 import org.unclecodes.mysalonsystem.stylist.StylistService;
 
@@ -17,13 +19,16 @@ public class MainService {
     private final StylistService stylistService;
     private final ClientService clientService;
     private final AppointmentService appointmentService;
+    private final RatingService ratingService;
 
     public MainService(StylistService stylistService,
                        ClientService clientService,
-                       AppointmentService appointmentService) {
+                       AppointmentService appointmentService,
+                       RatingService ratingService) {
         this.stylistService = stylistService;
         this.clientService = clientService;
         this.appointmentService = appointmentService;
+        this.ratingService = ratingService;
     }
 
     //client
@@ -115,6 +120,43 @@ public class MainService {
 
     public int countAttendedAppointments(){
         return appointmentService.attendedAppointment().size();
+    }
+
+    //ratings
+    public void createRating(Rating rating){
+        ratingService.createRating(rating);
+    }
+
+    public List<Rating> allRatings(){
+        return ratingService.allRatings();
+    }
+
+    public int countRatings(){
+        return allRatings().size();
+    }
+
+    public List<Rating> findRatingByClientEmail(String email){
+        return  ratingService.findRatingsByClient(email);
+    }
+
+    public List<Rating> findRatingByStylistEmail(String email){
+        return  ratingService.findRatingsByStylist(email);
+    }
+
+    public void deleteRatings(){
+        ratingService.deleteRatings();
+    }
+
+    public void deleteRatingsByClientEmail(String email){
+        ratingService.deleteRatingsByClientEmail(email);
+    }
+
+    public void deleteRatingsByStylistEmail(String email){
+        ratingService.deleteRatingsByStylistEmail(email);
+    }
+
+    public double averageRating(String email){
+        return ratingService.ratingPercentage(email);
     }
 
 }
