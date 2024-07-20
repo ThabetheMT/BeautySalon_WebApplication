@@ -48,12 +48,12 @@ public class MainController {
 
     @GetMapping("/client/{email}")
     public ResponseEntity<Client> getClientByEmail(@PathVariable String email){
-        return ResponseEntity.ok(mainService.getClient(email).get());
+        return ResponseEntity.ok(mainService.getClient(email));
     }
 
     @GetMapping("/client-id/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable Long id){
-        return ResponseEntity.ok(mainService.getClient(id).get());
+    public Client getClientById(@PathVariable Long id){
+        return ResponseEntity.ok(mainService.getClient(id)).getBody();
     }
 
     @DeleteMapping("/remove-client/{email}")
@@ -74,7 +74,7 @@ public class MainController {
 
     @GetMapping("/stylist/{email}")
     public ResponseEntity<Stylist> getStylist(@PathVariable String email){
-        return ResponseEntity.ok(mainService.getStylist(email).get());
+        return ResponseEntity.ok(mainService.getStylist(email));
     }
 
     @GetMapping("/stylist-id/{id}")
