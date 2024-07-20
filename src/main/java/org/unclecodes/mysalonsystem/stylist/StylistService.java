@@ -1,7 +1,9 @@
 package org.unclecodes.mysalonsystem.stylist;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.unclecodes.mysalonsystem.client.Client;
 import org.unclecodes.mysalonsystem.salon_exception.User_NotFound_Exception;
 
 import java.util.List;
@@ -24,9 +26,10 @@ public class StylistService {
         return stylistDAO.findAll();
     }
 
-    public Optional<Stylist> getStylistByEmail(String email){
-        return  Optional.ofNullable(stylistDAO.findStylistByEmail(email)
-                .orElseThrow(() -> new User_NotFound_Exception(" Stylist with the email: "+email+ " " +
+    public ResponseEntity<Stylist> getStylistByEmail(String email){
+        return  ResponseEntity.ok(
+                stylistDAO.findStylistByEmail(email)
+                        .orElseThrow(() -> new User_NotFound_Exception(" Stylist with the email: "+email+ " " +
                                 "does not exist")));
     }
 

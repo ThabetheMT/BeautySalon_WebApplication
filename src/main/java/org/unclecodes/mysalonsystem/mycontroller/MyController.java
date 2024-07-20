@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.unclecodes.mysalonsystem.User.User;
+import org.unclecodes.mysalonsystem.admin.Admin;
 import org.unclecodes.mysalonsystem.client.Client;
 import org.unclecodes.mysalonsystem.main_service.MainService;
 import org.unclecodes.mysalonsystem.salon_exception.User_NotFound_Exception;
@@ -31,13 +33,33 @@ public class MyController {
     }
 
     //logging
-    @PostMapping("/client-menu")
-    public String logging(@ModelAttribute Client client, HttpSession httpSession){
-        Client newClient = mainService.getClient(client.getEmail()).get();
-        if(!client.getPassword().equals(newClient.getPassword())){
-            throw new User_NotFound_Exception("Invalid password.");
+    @PostMapping("/user-menu")
+    public String logging(@ModelAttribute User user, Model model){
+
+        String role = user.role();
+        String page = "index";
+
+        switch (role){
+            case "admin" :
+                if(mainService.getAdmin(user.email()) != null){
+                    page = "adminMenu";
+                }
+                break;
+            case "client" :
+                if(mainService.getClient(user.email()) != null){
+                    page = "clientMenu";
+                }
+                break;
+            case "stylist" :
+                if(mainService.getStylist(user.email()) != null){
+                    page = "stylistMenu";
+                }
+                break;
         }
-        return "clientMenu";
+
+        model.addAttribute("role", role);
+        return page;
+
     }
 
     //login
@@ -46,21 +68,11 @@ public class MyController {
         return "login";
     }
 
-    //registering
-    @PostMapping("/add-client")
-    public String register(@ModelAttribute Client client, HttpSession httpSession){
-         int sizeBeforAdded = mainService.allClients().size();
-         mainService.addClient(client);
-         int sizeAfterAdded = mainService.allClients().size();
-
-         if(sizeBeforAdded < sizeAfterAdded){
-             System.out.println("save success");
-           //  httpSession.setAttribute("msg", "Client added successfully");
-         }else{
-             System.out.println("something wrong with the server.");
-           //  httpSession.setAttribute("msg", "Something went wrong when adding the client.");
-         }
-
+    //adding a user
+    @PostMapping("/add-user")
+    public String addUser(@ModelAttribute User user, Model model){
+        mainService.addUser(user);
+        model.addAttribute("role", user.role());
         return "addClient";
     }
 
@@ -83,7 +95,6 @@ public class MyController {
     @GetMapping("/client")
     public String client(Model model){
         Client client = Optional.ofNullable(mainService.getClient(Long.valueOf("2")))
-                .get()
                 .orElseThrow(() -> new User_NotFound_Exception("User does not found."));
         model.addAttribute("client", client);
         return "client";

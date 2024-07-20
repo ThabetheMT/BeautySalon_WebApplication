@@ -1,6 +1,7 @@
 package org.unclecodes.mysalonsystem.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.unclecodes.mysalonsystem.salon_exception.User_NotFound_Exception;
 
@@ -24,16 +25,18 @@ public class ClientService {
         clientRepository.save(client);
     }
 
-    public Optional<Client> getClient(String email){
-        return Optional.ofNullable(clientRepository.findByEmail(email)
-                .orElseThrow(() -> new User_NotFound_Exception("User with email: " + email + "" +
-                        " does not found.")));
+    public ResponseEntity<Client>  getClient(String email){
+        return ResponseEntity.ok(
+                clientRepository.findByEmail(email)
+                        .orElseThrow(() -> new User_NotFound_Exception("User with email: " + email + "" +
+                                " does not found.")));
     }
 
-    public Optional<Client> getClient(Long id){
-        return Optional.ofNullable(clientRepository.findById(id)
-                .orElseThrow(() -> new User_NotFound_Exception("User with email: " + id + "" +
-                        " does not found.")));
+    public ResponseEntity<Client> getClient(Long id){
+        return ResponseEntity.ok(
+                clientRepository.findById(id)
+                        .orElseThrow(() -> new User_NotFound_Exception("User with email: " + id + "" +
+                                " does not found.")));
     }
 
     public void removeClient(String email){

@@ -32,7 +32,7 @@
 
 
 
-    <form class="align-middle" action="/add-client" method="post">
+    <form class="align-middle" action="/add-user" method="post">
         <div class="w-50 p-3 align-middle">
             <div class="mb-3 align-middle" >
                 <label for="fName" class="form-label align-middle">First name</label>
@@ -61,6 +61,13 @@
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" name="password">
             </div>
+
+            <select class="form-select" name="role" aria-label="Default select example">
+                <option selected >Choose a role</option>
+                <option value="client">Client</option>
+                <option value="stylist">Stylist</option>
+                <option value="admin">Admin</option>
+            </select>
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
