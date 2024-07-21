@@ -41,7 +41,7 @@ public class MyController {
 
         switch (role){
             case "admin" :
-                if(mainService.getAdmin(user.email()) != null){
+                if(mainService.getAdmin(user.email()) != null ){
                     page = "adminMenu";
                 }
                 break;
