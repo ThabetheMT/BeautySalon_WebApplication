@@ -9,6 +9,8 @@ import org.unclecodes.mysalonsystem.appointment.Appointment;
 import org.unclecodes.mysalonsystem.appointment.AppointmentService;
 import org.unclecodes.mysalonsystem.client.Client;
 import org.unclecodes.mysalonsystem.client.ClientService;
+import org.unclecodes.mysalonsystem.message.Message;
+import org.unclecodes.mysalonsystem.message.MessageEmail;
 import org.unclecodes.mysalonsystem.ratings.Rating;
 import org.unclecodes.mysalonsystem.ratings.RatingService;
 import org.unclecodes.mysalonsystem.stylist.Stylist;
@@ -26,17 +28,19 @@ public class MainService {
     private final AppointmentService appointmentService;
     private final RatingService ratingService;
     private final AdminService adminService;
+    private final MessageEmail messageEmail;
 
     public MainService(StylistService stylistService,
                        ClientService clientService,
                        AppointmentService appointmentService,
                        RatingService ratingService,
-                       AdminService adminService) {
+                       AdminService adminService, MessageEmail messageEmail) {
         this.stylistService = stylistService;
         this.clientService = clientService;
         this.appointmentService = appointmentService;
         this.ratingService = ratingService;
         this.adminService = adminService;
+        this.messageEmail = messageEmail;
     }
 
     //client
@@ -226,6 +230,18 @@ public class MainService {
                     .build());
                 break;
         }
+
+        String body = "Hi, " + user.firstName() + " " + user.lastName() + "\n" +
+                "Thank you, your registration was successful.";
+        String recipient = user.email();
+        String subject = "T&N Beauty Salon Registration";
+
+        Message message = new Message();
+        message.setRecipient(recipient);
+        message.setBody(body);
+        message.setSubject(subject);
+
+        messageEmail.sendEmail(message);
     }
 
     //user logging in
@@ -244,6 +260,11 @@ public class MainService {
         }
 
         return found;
+    }
+
+    //sending email
+    public void sendEmail(Message message){
+        messageEmail.sendEmail(message);
     }
 
 }
